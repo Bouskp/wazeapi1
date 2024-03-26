@@ -5,6 +5,7 @@ class User extends Model {
   static associate(models) {
     User.belongsToMany(models.Roles, { through: 'UserRole' })
     User.hasMany(models.Event)
+    User.hasMany(models.Ticket)
   }
 }
 User.init(
@@ -22,6 +23,10 @@ User.init(
     siteWeb: DataTypes.STRING,
     telephone: DataTypes.STRING,
     photoUrl: DataTypes.STRING,
+    roles: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     sequelize,

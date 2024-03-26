@@ -10,7 +10,7 @@ class Roles extends Model {
 
 Roles.init(
   {
-    name: {
+    nom: {
       type: DataTypes.STRING,
     },
     createdAt: {
