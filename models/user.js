@@ -10,23 +10,92 @@ class User extends Model {
 }
 User.init(
   {
-    nom: DataTypes.STRING,
-    pernom: DataTypes.STRING,
-    email: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-    password: DataTypes.STRING,
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    nom: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'Le nom est obligatoire',
+          args: true,
+        },
+      },
+    },
+    prenom: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'Le prenom est obligatoire',
+          args: true,
+        },
+      },
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        isEmail: {
+          args: true,
+          msg: "L'email est incorrect",
+        },
+        notEmpty: {
+          msg: "L'email est obligatoire",
+          args: true,
+        },
+      },
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'Le mot de passe est obligatoire',
+          args: true,
+        },
+      },
+    },
     birthday: DataTypes.DATE,
     pays: DataTypes.STRING,
     ville: DataTypes.STRING,
-    codeClient: DataTypes.STRING,
-    siteWeb: DataTypes.STRING,
-    telephone: DataTypes.STRING,
-    photoUrl: DataTypes.STRING,
-    roles: {
+    codeClient: {
       type: DataTypes.STRING,
-      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Le code client est obligatoire',
+        },
+      },
     },
+    siteWeb: {
+      type: DataTypes.STRING,
+      validate: {
+        isUrl: {
+          msg: "L'url est incorrect",
+          args: true,
+        },
+      },
+    },
+    telephone: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'Le téléphone est obligatoire',
+          args: true,
+        },
+      },
+    },
+    photoUrl: DataTypes.STRING,
   },
   {
     sequelize,

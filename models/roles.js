@@ -12,12 +12,18 @@ Roles.init(
   {
     nom: {
       type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        notEmpty: true,
+      },
     },
     createdAt: {
       type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
     updatedAt: {
       type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
     },
   },
   {

@@ -10,14 +10,51 @@ class Ticket extends Model {
 
 Ticket.init(
   {
-    id: DataTypes.INTEGER,
-    prix: DataTypes.INTEGER,
+    id: {
+      type: DataType.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    prix: {
+      type: DataType.INTEGER,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'prix est obligatoire',
+        },
+      },
+    },
     pass: DataTypes.STRING,
     codeQrUrl: DataTypes.TEXT,
-    isSell: DataTypes.BOOLEAN,
-    codeTicket: DataTypes.TEXT,
-    proprio: DataTypes.INTEGER,
-    eventId: DataTypes.INTEGER,
+    isSell: {
+      type: DataType.BOOLEAN,
+      defaultValue: false,
+    },
+    codeTicket: {
+      type: DataType.TEXT,
+      unique: true,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'codeTicket est obligatoire',
+        },
+      },
+    },
+    proprio: {
+      type: DataType.INTEGER,
+      validate: {
+        isNull: true,
+      },
+    },
+    eventId: {
+      type: DataType.INTEGER,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'Un ticket doit avoir un événement',
+        },
+      },
+    },
   },
   {
     sequelize,
