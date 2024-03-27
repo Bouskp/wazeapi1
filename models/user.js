@@ -1,6 +1,9 @@
 'use strict'
 import { Model, DataTypes } from 'sequelize'
+import bcrypt from 'bcrypt'
 import sequelize from '../db.js'
+import { nanoid } from 'nanoid'
+
 class User extends Model {
   static associate(models) {
     User.belongsToMany(models.Roles, { through: 'UserRole' })
@@ -100,9 +103,15 @@ User.init(
   {
     sequelize,
     modelName: 'User',
-    underscored: true,
     timestamps: true,
   }
 )
+
+// les Hooks
+User.beforeCreate((user, options) => {
+  const hash = bcrypt.hashSync(user.password, 10)
+  user.password = hash
+  user.codeClient = nanoid()
+})
 
 export default User

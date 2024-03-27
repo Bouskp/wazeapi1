@@ -42,6 +42,10 @@ module.exports = {
       isOnline: { type: Sequelize.BOOLEAN, defaultValue: false },
       isUniqueEvent: { type: Sequelize.BOOLEAN, defaultValue: true },
       codeEvent: { type: Sequelize.STRING, allowNull: false },
+      lieu: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       creatorId: { type: Sequelize.INTEGER },
     })
   },
