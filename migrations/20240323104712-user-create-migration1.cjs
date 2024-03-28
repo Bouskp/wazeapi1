@@ -39,7 +39,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
-          min: 6,
+          len: [6, 1024],
         },
       },
       birthday: {
@@ -62,10 +62,11 @@ module.exports = {
       },
       telephone: {
         type: Sequelize.STRING,
+        unique: true,
         allowNull: false,
         validate: {
-          min: 10,
-          max: 20,
+          length: [10, 20],
+          msg: 'le numero doit faire au moins 10 caracteres',
         },
       },
       photoUrl: {

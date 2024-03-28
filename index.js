@@ -22,7 +22,7 @@ app.use(cookieParser())
 // jwt
 app.get('*', checkUser)
 app.get('/api/jwtid', requireAuth, (req, res) => {
-  res.status(200).send(res.locals.user.id)
+  res.send({ id: res.locals.user.id }).status(200)
 })
 
 //les routes
