@@ -67,7 +67,7 @@ export const registerErrors = (error) => {
     }
 
     if (first?.path === 'email' && first?.type.includes('Validation')) {
-      errors.password = "email n'est pas valide"
+      errors.email = "email n'est pas valide"
     }
 
     if (first?.path === 'email' && first?.type.includes('violation')) {

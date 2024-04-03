@@ -1,5 +1,5 @@
-import { Model, DataType, DataTypes } from 'sequelize'
-import sequelize from '../db'
+import { Model, DataTypes } from 'sequelize'
+import sequelize from '../db.js'
 
 class Event extends Model {
   static associate(models) {

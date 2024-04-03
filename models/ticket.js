@@ -1,5 +1,5 @@
-import { Model, DataType } from 'sequelize'
-import sequelize from '../db'
+import { Model, DataTypes } from 'sequelize'
+import sequelize from '../db.js'
 
 class Ticket extends Model {
   static associate(models) {
@@ -11,12 +11,13 @@ class Ticket extends Model {
 Ticket.init(
   {
     id: {
-      type: DataType.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
     prix: {
-      type: DataType.INTEGER,
+      type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notNull: {
           args: true,
@@ -27,12 +28,13 @@ Ticket.init(
     pass: DataTypes.STRING,
     codeQrUrl: DataTypes.TEXT,
     isSell: {
-      type: DataType.BOOLEAN,
+      type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
     codeTicket: {
-      type: DataType.TEXT,
+      type: DataTypes.TEXT,
       unique: true,
+      allowNull: false,
       validate: {
         notNull: {
           args: true,
@@ -41,13 +43,14 @@ Ticket.init(
       },
     },
     proprio: {
-      type: DataType.INTEGER,
+      type: DataTypes.INTEGER,
       validate: {
         isNull: true,
       },
     },
     eventId: {
-      type: DataType.INTEGER,
+      type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         notNull: {
           args: true,

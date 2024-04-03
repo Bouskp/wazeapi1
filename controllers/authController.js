@@ -1,7 +1,7 @@
-import User from '../models/user.js'
 import bcrypt from 'bcrypt'
 import { createToken } from '../utils/createToken.js'
 import ErrorTest, { loginErrors, registerErrors } from '../utils/errors.js'
+import { Roles, User } from '../models/main.js'
 
 const register = async (req, res) => {
   const {
@@ -15,6 +15,7 @@ const register = async (req, res) => {
     codeClient,
     siteWeb,
     telephone,
+    role = { nom: 'User' },
   } = req.body
 
   try {
@@ -30,7 +31,9 @@ const register = async (req, res) => {
       siteWeb,
       telephone,
     })
+    const findRole = await Roles.findOne({ where: { nom: role.nom } })
     const user = await newUser.save()
+    await user.addRole(findRole)
     res.status(200).send({ user: user.id })
   } catch (error) {
     const errors = registerErrors(error)

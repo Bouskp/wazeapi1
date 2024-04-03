@@ -1,12 +1,8 @@
-import { Model, DataType } from 'sequelize'
-import sequelize from '../db'
-import User from './user'
+import { Model, DataTypes } from 'sequelize'
+import sequelize from '../db.js'
+import User from './user.js'
 
-class Roles extends Model {
-  static associate(models) {
-    Roles.belongsToMany(models.User, { through: 'UserRole' })
-  }
-}
+class Roles extends Model {}
 
 Roles.init(
   {
@@ -15,7 +11,16 @@ Roles.init(
       unique: true,
       validate: {
         notEmpty: true,
+        isIn: {
+          msg: 'le nom est obligatoire ',
+          args: [['Admin', 'Creator', 'SuperAdmin']],
+        },
       },
+    },
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -29,6 +34,7 @@ Roles.init(
   {
     sequelize,
     modelName: 'Roles',
+    timestamps: true,
   }
 )
 

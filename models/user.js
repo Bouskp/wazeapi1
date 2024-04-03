@@ -4,13 +4,9 @@ import bcrypt from 'bcrypt'
 import sequelize from '../db.js'
 import { nanoid } from 'nanoid'
 import ErrorTest from '../utils/errors.js'
+import Roles from './roles.js'
 
 class User extends Model {
-  static associate(models) {
-    User.belongsToMany(models.Roles, { through: 'UserRole' })
-    User.hasMany(models.Event)
-    User.hasMany(models.Ticket)
-  }
   // Method to Login
   static async login(email, password) {
     const user = await this.findOne({ where: { email: email } })
@@ -37,6 +33,7 @@ class User extends Model {
         'photoUrl',
         'birthday',
       ],
+      include: Roles,
     })
     if (user) {
       return user
@@ -85,6 +82,7 @@ class User extends Model {
         'photoUrl',
         'birthday',
       ],
+      // include: Roles,
     })
     if (users) {
       return users
@@ -92,6 +90,7 @@ class User extends Model {
     return null
   }
 }
+
 User.init(
   {
     id: {
