@@ -109,3 +109,8 @@ export const uploadError = (error) => {
     errors.maxSize = 'le fichier dépasse 500ko'
   return errors
 }
+
+export const eventError = (error) => {
+  console.log(error)
+  let errors = {}
+}

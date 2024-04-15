@@ -2,9 +2,43 @@ import { Model, DataTypes } from 'sequelize'
 import sequelize from '../db.js'
 
 class Event extends Model {
-  static associate(models) {
-    Event.belongsTo(models.User)
-    Event.hasMany(models.Ticket)
+  static async getEvents() {
+    return await this.findAll({ include: 'User' })
+  }
+
+  static async getEvent(id) {
+    const event = await this.findOne({ where: { id: id }, include: 'User' })
+    if (event) return event
+    else return null
+  }
+
+  static async createEvent(newEvent) {
+    const event = await this.create(newEvent)
+    return event
+  }
+
+  static async deleteEvent(id) {
+    const event = await this.findOne({ where: { id: id } })
+    if (event) {
+      await event.destroy()
+      return event
+    }
+    return null
+  }
+
+  static async updateEvent(id, newEvent) {
+    const event = await this.findOne({ where: { id: id } })
+    if (event) {
+      await event.update(newEvent)
+      return event
+    }
+    return null
+  }
+
+  static async getEventsByUser(id) {
+    const events = await this.findAll({ where: { creatorId: id } })
+    if (events) return events
+    else return null
   }
 }
 
