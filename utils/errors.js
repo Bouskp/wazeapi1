@@ -100,3 +100,12 @@ export const registerErrors = (error) => {
 
   return errors
 }
+
+export const uploadError = (error) => {
+  let errors = { format: '', maxSize: '' }
+  if (error.message.includes('Invalid file'))
+    errors.format = 'format incompatible'
+  if (error.message.includes('max size exceeded'))
+    errors.maxSize = 'le fichier dépasse 500ko'
+  return errors
+}

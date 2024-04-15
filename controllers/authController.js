@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt'
 import { createToken } from '../utils/createToken.js'
-import ErrorTest, { loginErrors, registerErrors } from '../utils/errors.js'
+import { loginErrors, registerErrors } from '../utils/errors.js'
 import { Roles, User } from '../models/main.js'
+
+const maxAge = 3 * 24 * 60 * 60 * 1000
 
 const register = async (req, res) => {
   const {
@@ -12,7 +14,6 @@ const register = async (req, res) => {
     birthday,
     pays,
     ville,
-    codeClient,
     siteWeb,
     telephone,
     role = { nom: 'User' },
@@ -27,7 +28,6 @@ const register = async (req, res) => {
       birthday,
       pays,
       ville,
-      codeClient,
       siteWeb,
       telephone,
     })
@@ -36,6 +36,7 @@ const register = async (req, res) => {
     await user.addRole(findRole)
     res.status(200).send({ user: user.id })
   } catch (error) {
+    console.log(error)
     const errors = registerErrors(error)
     res.status(200).send({ errors })
   }
@@ -46,10 +47,7 @@ const login = async (req, res) => {
   try {
     const user = await User.login(email, password)
     const token = createToken(user.id)
-    res
-      .cookie('jwt', token, { maxAge: 3600 * 24 * 60 * 60 * 1000 })
-      .status(200)
-      .json({ id: user.id })
+    res.status(200).cookie('jwt', token, { maxAge }).json({ id: user.id })
   } catch (error) {
     const errors = loginErrors(error)
     res.status(200).json({ errors })

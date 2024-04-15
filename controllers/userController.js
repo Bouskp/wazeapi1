@@ -1,4 +1,4 @@
-import User from '../models/user.js'
+import { Roles, User } from '../models/main.js'
 import { registerErrors } from '../utils/errors.js'
 
 export const getUserById = async (req, res) => {
@@ -39,5 +39,23 @@ export const deleteUser = async (req, res) => {
     res.status(200).json({ id: user.id })
   } else {
     res.status(404).send({ message: 'Id introuvable' })
+  }
+}
+
+export const updateRoles = async (req, res) => {
+  const { userId } = req.params
+  const { roles } = req.body
+  try {
+    const isRole = Roles.isRole(roles.nom)
+    if (!isRole) return res.status(404).send({ message: 'Role incorrect' })
+    const newRoles = await Roles.findOne({ where: { nom: roles.nom } })
+
+    const user = await User.updateRoles(userId, newRoles)
+
+    if (!user) return res.status(404).send({ message: 'Id incorrect' })
+    return res.status(201).send({ message: 'Role updated' })
+  } catch (error) {
+    console.log(error)
+    res.status(200).send({ error: error.message })
   }
 }

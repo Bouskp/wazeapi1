@@ -11,16 +11,21 @@ import { checkUser, requireAuth } from './middlewares/checkUser.js'
 
 config()
 const app = express()
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-app.use(cors())
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+)
 app.use(helmet())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json({ extended: true }))
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }))
 app.use(morgan('common'))
 app.use(cookieParser())
 
 // jwt
-app.get('*', checkUser)
+app.all('*', checkUser)
 app.get('/api/jwtid', requireAuth, (req, res) => {
   res.send({ id: res.locals.user.id }).status(200)
 })

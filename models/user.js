@@ -23,6 +23,7 @@ class User extends Model {
   static async getUserById(id) {
     const user = await this.findByPk(id, {
       attributes: [
+        'id',
         'nom',
         'prenom',
         'email',
@@ -62,6 +63,7 @@ class User extends Model {
       findUser.birthday = user.birthday || findUser.birthday
       findUser.siteWeb = user.siteWeb || findUser.siteWeb
       findUser.telephone = user.telephone || findUser.telephone
+      findUser.photoUrl = user.photoUrl || findUser.photoUrl
       await findUser.save()
       return findUser
     }
@@ -86,6 +88,14 @@ class User extends Model {
     })
     if (users) {
       return users
+    }
+    return null
+  }
+  static async updateRoles(id, newRoles) {
+    const findUser = await this.findByPk(id)
+    if (findUser) {
+      await findUser.setRoles(newRoles)
+      return findUser
     }
     return null
   }
@@ -210,7 +220,6 @@ User.beforeUpdate((user, options) => {
   const salt = bcrypt.genSaltSync(10)
   const hash = bcrypt.hashSync(user.password, salt)
   user.password = hash
-  user.codeClient = nanoid()
 })
 
 export default User

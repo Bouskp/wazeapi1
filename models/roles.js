@@ -1,8 +1,11 @@
 import { Model, DataTypes } from 'sequelize'
 import sequelize from '../db.js'
-import User from './user.js'
 
-class Roles extends Model {}
+class Roles extends Model {
+  static isRole(role) {
+    return role === 'Admin' || role === 'Creator' || role === 'SuperAdmin'
+  }
+}
 
 Roles.init(
   {

@@ -17,6 +17,7 @@ const checkUser = (req, res, next) => {
     })
   } else {
     res.locals.user = null
+    // res.status(404).send('Vous devez être connecté')
     next()
   }
 }
@@ -38,4 +39,6 @@ const requireAuth = async (req, res, next) => {
   }
 }
 
-export { checkUser, requireAuth }
+const authorization = async (req, res, next) => {}
+
+export { checkUser, requireAuth, authorization }
